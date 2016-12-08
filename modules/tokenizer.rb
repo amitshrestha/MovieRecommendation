@@ -1,14 +1,23 @@
+require 'csv'
 module Tokenizer
   extend self
 
-  def tokenize_document
+  def self.movie_names
+    movies = []
+    CSV.foreach("movie_datalist.csv", :headers => true) do |row|
+      movies << row['Title']
+    end
+    return movies.sort
+  end
+
+  def self.tokenize_document
     keywords_in_each_document = []
     CSV.open("movie_datalist.csv") do |row|
       movie_description = row['description']
       tokens = self.remove_stop_words(movie_description)
       keywords_in_each_document << tokens
     end
-  	return 5000
+  	return keywords_in_each_document
   end
 
   def merge_description_and_title

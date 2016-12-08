@@ -1,4 +1,11 @@
-<p>
-	<h1> Heroku Test is successfull</h1>
-	<%= @stop_words%>
-</p>
+<div class="content-wrap">
+	<form method="post" action="/recommend" >
+	  <input list="movie_name" name="movie_name">
+	  <datalist id="movie_name">
+	  	<% @movie_names.each do |movie| %>
+				<option name ='<%= movie %>' value='<%= movie %>'>
+		  <% end %>
+	  </datalist>
+	  <input type="submit">
+	</form>
+</div>
