@@ -1,4 +1,5 @@
 require 'csv'
+
 module Tokenizer
   extend self
 
@@ -7,7 +8,7 @@ module Tokenizer
     CSV.foreach("movie_datalist.csv", :headers => true) do |row|
       movies << row['Title']
     end
-    return movies.sort
+    return movies.compact.sort
   end
 
 
@@ -59,7 +60,6 @@ module Tokenizer
 
   #tokenize (by removing stop words)
   def self.remove_stop_words(document)
-  	# sample_text = "This spectacular epic re-creates the ill-fated maiden voyage of the White Star Line's $7.5 million R.M.S Titanic and the tragic sea disaster of April 15, 1912. Running over three hours and made with the combined contributions of two major studios (20th Century-Fox, Paramount) at a cost of more than $200 million, Titanic ranked as the most expensive film in Hollywood history at the time of its release, and became the most successful. Writer-director James Cameron employed state-of-the-art digital special effects for this production, realized on a monumental scale and spanning eight decades. Inspired by the"
   	splitted_document = document.strip.split(' ')
   	@tokens = (splitted_document - self.stop_words('simple_stop_wordlist')).first(100) rescue []
   end
@@ -81,7 +81,6 @@ module Tokenizer
       term_frequency.each_key do |term|
         term_frequency[term] = term_frequency[term].fdiv(normalization_factor)
       end
-      # normalized_term_freq = term_frequency/tokens.size
 
       term_frequency
     end
@@ -89,18 +88,20 @@ module Tokenizer
     term_frequency
   end
 
-  def calculate_idf(tokens)
+  def calculate_idf
     inverse_document_freq = Hash.new {|h, k| h[k] = 0 }
 
     #all tokens (uniq for each document)
-    tokens = tokenize_document
-
-    tokens.each do |term|
+    all_tokens = tokenize_document
+    unique_word_in_each_document = all_tokens.map(&:uniq).flatten
+    
+    unique_word_in_each_document.each do |term|
       inverse_document_freq[term] += 1
     end
 
+    number_of_documents = Math.log2(self.total_number_of_documents)
     inverse_document_freq.each_pair do |term, count|
-      inverse_document_freq[term] =  Math.log2(self.total_number_of_documents/count)
+      inverse_document_freq[term] =  number_of_documents - Math.log2(count)
     end
 
     inverse_document_freq
@@ -109,12 +110,11 @@ module Tokenizer
 
   def calculate_tf_idf(tokenized_query)
     normalized_term_freq = calculate_tf(tokenized_query)
-    inverse_document_freq = calculate_idf(tokenized_query)
+    inverse_document_freq = calculate_idf
 
     #final vector with tf*idf
-    idf_value = inverse_document_freq[tokenized_query]
     normalized_term_freq.each do |key, value|
-      normalized_term_freq[key] = (value * idf_value) || 0.00
+      normalized_term_freq[key] = (value * inverse_document_freq[key]) || 0.00
     end
     
     normalized_term_freq
@@ -154,11 +154,10 @@ module Tokenizer
       value_in_query = tf_idf_weight_for_query[key] || 0
       numerator_sum = numerator_sum + value_in_document * value_in_query
     end
-
     magnitude_of_document_vector = tf_idf_for_document.values.flatten.inject(0) {|sum, value| sum + value * value}
     magnitude_of_query_vector = tf_idf_weight_for_query.values.flatten.inject(0) {|sum, value| sum + value * value}
-    denominator = magnitude_of_document_vector * magnitude_of_query_vector
-    similarity_value = numerator_sum.fdiv(denominator)
+    denominator = Math.sqrt(magnitude_of_document_vector) * Math.sqrt(magnitude_of_query_vector)
+    similarity_value = numerator_sum.fdiv(denominator) rescue 0.0
 
     similarity_value
   end
@@ -176,11 +175,27 @@ module Tokenizer
     #sort the title_and_similarity_hash in descending value by value
     sorted_recommended_movies = Hash[title_and_similarity_hash.sort_by{|k, v| v}.reverse] || {}
 
-    get_top_movies(sorted_recommended_movies)
+    top_movies = get_top_movies(sorted_recommended_movies)
+
+    get_top_movie_details(top_movies)
   end
 
   def get_top_movies(sorted_recommend_movies)
-    Hash[sorted_recommend_movies.sort_by { |k,v| -v }[0..5]]
+    Hash[sorted_recommend_movies.sort_by { |k,v| -v }[0..9]]
+  end
+
+  def self.get_top_movie_details(top_movies)
+    movie_detail = []
+    movie_ids = top_movies.keys.flatten
+
+    data = File.read('movie_datalist.csv')
+    csv = CSV.parse(data, :headers => true)
+    movie_ids.each do |m_id|
+      row = csv.find {|row| row['ID'] == m_id}
+      details = {'Title'=> row['Title'], 'Genre'=> row['Genre'], 'Director'=> row['Director'], 'Studio'=> row['Studio'], 'Release year'=> row['Release year'],'Rating'=> row['Rating'], 'URL'=> row['URL'], 'Description'=> row['Description']}
+      movie_detail.push([m_id, details])
+    end
+    movie_detail
   end
 
 end

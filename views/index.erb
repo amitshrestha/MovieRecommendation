@@ -1,6 +1,6 @@
 <div class="content-wrap">
-	<form method="post" action="/recommend" >
-	  <input list="movie_name" name="movie_name">
+	<form method="get" action="/recommend" >
+	  <input class = "search" list="movie_name" name="movie_name">
 	  <datalist id="movie_name">
 	  	<% @movie_names.each do |movie| %>
 				<option name ='<%= movie %>' value='<%= movie %>'>
@@ -9,3 +9,22 @@
 	  <input type="submit">
 	</form>
 </div>
+
+
+<style type='text/css'>
+body{
+	background-color: #456;	
+}
+.content-wrap{
+	position: fixed;
+  top: 10%;
+  left: 30%;
+
+}
+
+.search{
+	width: 500px;
+	height: 29px;
+}
+
+</style>

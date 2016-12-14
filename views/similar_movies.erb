@@ -1,0 +1,36 @@
+<div class="content-wrap">
+	<% @recommended_movies.each do |key, detail|%>
+		<div class='movie_info'>
+			<h3>Title: <%= detail['Title'] %></h3>
+			<h4>Genre: <%= detail['Genre'] %></h4>
+			<h4>Director: <%= detail['Director'] %></h4>
+			<h4>Studio: <%= detail['Studio'] %></h4>
+			<h4>Release year: <%= detail['Release year'] %></h4>
+			<h4>Rating: <%= detail['Rating'] %></h4>
+			<h4>URL: <a href=<%= detail['URL'] %>> <%= detail['URL'] %> </a></h4>
+			<h4>Description: <%= detail['Description'] %></h4>
+		</div>
+		<hr>
+	<%end%>
+</div>
+
+<style type='text/css'>
+header {	
+	color: #678;
+	width: 1024px;
+	height: 100px;
+	margin: auto;
+}
+body{
+	background-color: #456;	
+}
+.content-wrap{
+		background-color: #fafafa;
+		margin: auto;
+		minimum-height: 400px;
+		width: 1024px;
+		padding-left: 10px;
+		margin-top: 100px;
+		padding-top: 50px
+}
+</style>
