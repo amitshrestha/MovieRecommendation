@@ -1,14 +1,26 @@
 <div class="content-wrap">
+	<div id='selected_movie'>
+		Movies Related to: <span id='selected'> "<%= @user_choice%>"</span>
+		<hr>
+	</div>
 	<% @recommended_movies.each do |key, detail|%>
 		<div class='movie_info'>
-			<h3>Title: <%= detail['Title'] %></h3>
-			<h4>Genre: <%= detail['Genre'] %></h4>
-			<h4>Director: <%= detail['Director'] %></h4>
-			<h4>Studio: <%= detail['Studio'] %></h4>
-			<h4>Release year: <%= detail['Release year'] %></h4>
-			<h4>Rating: <%= detail['Rating'] %></h4>
-			<h4>URL: <a href=<%= detail['URL'] %>> <%= detail['URL'] %> </a></h4>
-			<h4>Description: <%= detail['Description'] %></h4>
+			<span class='details'><p class='headings'>Title: </p><h3 id ='title'><%= detail['Title'] %></h3></span>
+			</br>
+			<span class='details'><p class='headings'>Genre: </p><h3><%= detail['Genre'] %></h3></span>
+			</br>
+			<span class='details'><p class='headings'>Director: </p><h3><%= detail['Director'] %></h3></span>
+			</br>
+			<span class='details'><p class='headings'>Studio: </p><h3><%= detail['Studio'] %></h3></span>
+			</br>
+			<span class='details'><p class='headings'>Release year: </p><h3><%= detail['Release year']%></h3></span>
+			</br>
+			<span class='details'><p class='headings'>Rating: </p><h3><%= detail['Rating'] %></h3></span>
+			</br>
+			<span class='details'><p class='headings'>URL:</p><a href=<%= detail['URL'] %>> <h3><%= detail['URL'] %> </h3></a></span>
+			</br>
+			<span class='details'><p class='headings' >Description: </p><h3 id='desc'><%= detail['Description'] %></h3></span>
+			</br>
 		</div>
 		<hr>
 	<%end%>
@@ -27,10 +39,35 @@ body{
 .content-wrap{
 		background-color: #fafafa;
 		margin: auto;
-		minimum-height: 400px;
 		width: 1024px;
 		padding-left: 10px;
 		margin-top: 100px;
-		padding-top: 50px
+		/*padding-top: 50px;*/
+		padding: 50px;
+}
+
+#selected_movie{
+	font-size: 14px;
+}
+#selected{
+	color: #f721c5;
+}
+
+#selected_movie span{
+	font-size: 20px;
+}
+.movie_info .details p,
+.movie_info .details h3{
+    display: inline;
+}
+#title{
+	color: #0474e4;
+}
+#desc{
+	font-size: 14px;
+}
+.headings{
+	font-size: 16px;
+	font-style: italic;
 }
 </style>
