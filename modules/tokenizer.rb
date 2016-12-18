@@ -1,5 +1,4 @@
 require 'csv'
-
 module Tokenizer
   extend self
 
@@ -192,7 +191,7 @@ module Tokenizer
     csv = CSV.parse(data, :headers => true)
     movie_ids.each do |m_id|
       row = csv.find {|row| row['ID'] == m_id}
-      details = {'Title'=> row['Title'], 'Genre'=> row['Genre'], 'Director'=> row['Director'], 'Studio'=> row['Studio'], 'Release year'=> row['Release year'],'Rating'=> row['Rating'], 'URL'=> row['URL'], 'Description'=> row['Description']}
+      details = {'Title'=> row['Title'], 'Genre'=> row['Genre'], 'Director'=> row['Director'], 'Studio'=> row['Studio'], 'Release year'=> row['Release year'],'Rating'=> row['Rating'], 'URL'=> row['URL'], 'Description'=> row['Description'], 'Image_url'=> row['Image_url']}
       movie_detail.push([m_id, details])
     end
     movie_detail
