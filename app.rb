@@ -11,15 +11,13 @@ class App < Sinatra::Base
 		erb :index
 	end
 
-	post '/recommend' do
-		@user_choice = @params[:movie_name]
-		@recommended_movies = [Tokenizer.recommend(@user_choice)]
-	end
-
 	get '/recommend' do
 		@user_choice = @params[:movie_name]
-		@recommended_movies = Tokenizer.recommend(@user_choice) || []
-		
-		erb :similar_movies
+		if !(@user_choice.empty?)
+			@recommended_movies = Tokenizer.recommend(@user_choice) || []
+			erb :similar_movies
+		else
+			redirect '/'
+		end
 	end
 end

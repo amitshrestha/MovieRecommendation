@@ -1,17 +1,17 @@
-
-<div id="main_content"> 
+<div id="main_content">
+	<div id='selected_movie'><span> Movies Related to: </span><span id='m_name'>"<%= @user_choice%>"</span></div>
+	<hr>
     <div class="movie_list">
     <% @recommended_movies.each do |key, detail|%>
         <div class="movie">
-        <p style="text-align:center;"><img src=<%=detail['Image_url']%>></img></p>
-        <h3><%= detail['Title']%></h3>
+        <a href=<%= detail['URL']%>><p style="text-align:center;"><img src=<%=detail['Image_url']%>></img></p></a>
+        <h3 id='title'><%= detail['Title']%></h3>
         <h4 id='info'>Info</h4>
         <h5> Genre: <%= detail['Genre']%></h5>
         <h5> Director: <%= detail['Director']%></h5>
         <h5> Studio: <%= detail['Studio']%></h5>
         <h5> Release year: <%= detail['Release year']%></h5>
-        <h5> Rating: <%= detail['Rating']%></h5>
-        <h5><a href=<%= detail['URL'] %>>URL: <%= detail['URL']%></a></h5>
+        <h5 class='rating'> Rating: <%= detail['Rating']%></h5>
         <h5 id='desc'><%= detail['Description']%></h5>
         </div>
         <%end%>
@@ -24,13 +24,28 @@
 body{
 	background-color: #e3e2dd;
 }
+
+#m_name{
+	color: purple;
+	font-style: italic;
+	font-size: 24px;
+}
+#selected_movie{
+	margin-left: 30px;
+}
+img{
+	max-height: 200px;
+	max-width: 200px;
+}
 #main_content
 {
     width:100%;
     height: auto;
     margin: 0 auto;
-    margin-top:75px;
-    border:1px solid black;
+    margin-top:25px;
+}
+#title{
+	color: #0C89CA;
 }
 .movie_list{
     float:left;
@@ -39,7 +54,8 @@ body{
 }
 
 .movie{
-    margin:25px;
+    margin:23px;
+    margin-top: 10px;
     min-height: 250px;
     background-color: white;
     border:1px solid #bdbdbd;
@@ -56,15 +72,10 @@ body{
   	overflow: hidden;
 }
 
-.ratings {
-	border-radius: 50%;
-	width: 50px;
-	height: 50px; 
-	background-color: yellow;
-	float: right;
-    margin-top: -48px;
-    margin-right: 20px;
-    text-align: center;
+hr{
+	height: 1px;
+    color: #333;
+    background-color: #333;
 }
 
 #info{

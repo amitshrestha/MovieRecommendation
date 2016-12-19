@@ -1,12 +1,14 @@
+<div id='content1'> Already Watched some Movies????</div>
+<div id='content2'>Find Similar Movies Here..</div>
 <div class="content-wrap">
-	<form method="get" action="/recommend" >
+	<form method="get" action="/recommend" id="m_form" >
 	  <input class = "search" list="movie_name" name="movie_name">
 	  <datalist id="movie_name">
 	  	<% @movie_names.each do |movie| %>
 				<option name ='<%= movie %>' value='<%= movie %>'>
 		  <% end %>
 	  </datalist>
-	  <input type="submit">
+	  <input id='submit_btn' type="submit" value="Search">
 	</form>
 </div>
 
@@ -17,14 +19,36 @@ body{
 }
 .content-wrap{
 	position: fixed;
-  top: 10%;
+  top: 30%;
   left: 30%;
-
 }
-
 .search{
 	width: 500px;
-	height: 29px;
+	height: 37px;
 }
-
+#content1, #content2{
+	text-align: center;
+}
+#content1{
+	position: fixed;
+  top: 10%;
+  left: 30%;
+  color: white;
+  font-size: 20px;
+}
+#content2{
+	position: fixed;
+  top: 20%;
+  left: 30%;
+  color: white;
+  font-size: 30px;
+}
+#submit_btn {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 30px;
+    text-align: center;
+    font-size: 16px;
+}
 </style>

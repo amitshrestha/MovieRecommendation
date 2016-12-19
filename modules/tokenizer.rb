@@ -134,12 +134,10 @@ module Tokenizer
   def similar_movie_hash(similarity_score)
 
     final_similarity_hash ={}
-    #get the id of the movie
     movie_hash = movie_map_hash
     values = movie_hash.values
     similarity_score.each do |tokens, score|
       if(values.include?(tokens))
-        # key is the id of the movie
         key = movie_hash.key(tokens) || 0
         final_similarity_hash[key] = score
       end
