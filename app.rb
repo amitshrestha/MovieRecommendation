@@ -13,7 +13,8 @@ class App < Sinatra::Base
 
 	get '/recommend' do
 		@user_choice = @params[:movie_name]
-		if !(@user_choice.empty?)
+		@movie_names = Tokenizer.movie_names
+		if (!(@user_choice.empty?) && @movie_names.include?(@user_choice))
 			@recommended_movies = Tokenizer.recommend(@user_choice) || []
 			erb :similar_movies
 		else
