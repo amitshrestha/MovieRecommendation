@@ -43,10 +43,6 @@ module Tokenizer
     tokens
   end
 
-  def merge_description_and_title
-
-  end
-
   def self.stop_words(filename = "simple_stop_wordlist")
   	@stop_words = []
   	File.open(filename + '.txt') do |f|
