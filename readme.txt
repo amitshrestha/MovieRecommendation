@@ -25,15 +25,13 @@ Important Files:
 	- A csv file that contains all the information about the 50 movies
 
 3. simple_stop_wordlist.txt:
-	= A simple txt file that contains simple stop words taken from online.
+	- A simple txt file that contains simple stop words taken from online.
 
 How does this project recommends movie?
-1. Given a movie selected by a user (M)
-2. Takes the description of M.
-3. Removes stop words from description of M.(query tokens)
-4. Removes stop words from all other movies description. (other movie's tokens)
-5. Calculates tf-idf for query tokens and other movies tokens.
-6. Finds Cosine similarity of query movie with each of the other movies.
-7. Displays top 10 movies with highest cosine similarity value.
-
-
+	1. Given a movie selected by a user (M)
+	2. Takes the description of M.
+	3. Removes stop words from description of M.(query tokens)
+	4. Removes stop words from all other movies description. (other movie's tokens)
+	5. Calculates tf-idf for query tokens and other movies tokens.
+	6. Finds Cosine similarity of query movie with each of the other movies.
+	7. Displays top 10 movies with highest cosine similarity value.
